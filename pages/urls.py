@@ -19,6 +19,6 @@ from django.urls import path
 from pages.core.views import book_list
 
 urlpatterns = [
-    path('', book_list),
-    path('admin/', admin.site.urls),
+    path("", book_list, name="book_list"),
+    path("admin/", admin.site.urls),
 ]

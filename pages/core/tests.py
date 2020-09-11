@@ -1,3 +1,27 @@
-from django.test import TestCase
+from django.core.paginator import Page
+from django.shortcuts import resolve_url
+from pytest_django.asserts import assertContains
 
-# Create your tests here.
+
+def test_book_list_get(book_list):
+    assertContains(book_list, "Book List")
+
+
+def test_book_list_context(book_list):
+    assert 'obj_list' in book_list.context
+
+
+def test_book_list_context_instance(book_list):
+    assert isinstance(book_list.context['obj_list'], Page)
+
+
+def test_books_per_page(populate_book_list, book_list):
+    _25_BOOKS_PER_PAGE = 25
+    page = book_list.context['obj_list']
+    assert page.object_list.count() == _25_BOOKS_PER_PAGE
+
+
+def test_get_page_from_query_string(populate_book_list, client):
+    resp = client.get(f"{resolve_url('book_list')}?page=2")
+    page = resp.context['obj_list']
+    assert page.number == 2
