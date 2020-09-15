@@ -8,20 +8,20 @@ def test_book_list_get(book_list):
 
 
 def test_book_list_context(book_list):
-    assert 'obj_list' in book_list.context
+    assert 'page_obj' in book_list.context
 
 
 def test_book_list_context_instance(book_list):
-    assert isinstance(book_list.context['obj_list'], Page)
+    assert isinstance(book_list.context['page_obj'], Page)
 
 
 def test_books_per_page(populate_book_list, book_list):
-    _25_BOOKS_PER_PAGE = 25
-    page = book_list.context['obj_list']
-    assert page.object_list.count() == _25_BOOKS_PER_PAGE
+    _10_BOOKS_PER_PAGE = 10
+    page = book_list.context['page_obj']
+    assert page.paginator.per_page == _10_BOOKS_PER_PAGE
 
 
 def test_get_page_from_query_string(populate_book_list, client):
     resp = client.get(f"{resolve_url('book_list')}?page=2")
-    page = resp.context['obj_list']
+    page = resp.context['page_obj']
     assert page.number == 2

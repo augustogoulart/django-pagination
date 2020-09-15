@@ -1,28 +1,61 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row">
-  <div class="col-8 offset-2">
-    <table class="table">
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Author</th>
-      <th scope="col">Date Published</th>
-      <th scope="col">Title</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for book in books %}
-      <tr>
-        <th scope="row">{{ book.id }}</th>
-        <td>{{ book.author }}</td>
-        <td>{{ book.published_at }}</td>
-        <td>{{ book.title }}</td>
-      </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-8 offset-2">
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Author</th>
+          <th scope="col">Date Published</th>
+          <th scope="col">Title</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for book in page_obj %}
+          <tr>
+            <th scope="row">{{ book.id }}</th>
+            <td>{{ book.author }}</td>
+            <td>{{ book.published_at }}</td>
+            <td>{{ book.title }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-4 offset-4">
+      <nav aria-label="...">
+        <ul class="pagination">
+
+          {% if page_obj.has_previous%}
+            <li class="page-item">
+              <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link">Previous</span>
+            </li>
+          {% endif %}
+
+          <li class="page-item">
+            <a class="page-link" href="#">{{ page_obj.number }}</a>
+          </li>
+
+        {% if page_obj.has_next %}
+          <li class="page-item ">
+            <a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <span class="page-link">Next</span>
+          </li>
+        {% endif %}
+        </ul>
+      </nav>
+    </div>
+
   </div>
-</div>
 {% endblock content %}

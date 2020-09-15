@@ -13,4 +13,4 @@ def book_list(db, client):
 
 @pytest.fixture
 def populate_book_list(db, client):
-    return baker.make(Book, _quantity=75)
+    return baker.make(Book, _quantity=25)
