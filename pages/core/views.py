@@ -1,14 +1,11 @@
-from django.shortcuts import render
-from django.core.paginator import Paginator
+from django.views.generic import ListView
 
 from pages.core.models import Book
 
 
-def book_list(request):
-    books = Book.objects.all()
-    paginator = Paginator(books, 10)
+class BookListView(ListView):
+    paginate_by = 10
+    model = Book
 
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
 
-    return render(request, "core/book_list.html", {"page_obj": page_obj})
+book_list = BookListView.as_view()
