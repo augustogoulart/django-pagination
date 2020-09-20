@@ -2,6 +2,9 @@ from django.core.paginator import Page
 from django.shortcuts import resolve_url
 from pytest_django.asserts import assertContains
 
+from pages.core.managers import PageManager
+from pages.core.models import Book
+
 
 def test_book_list_get(book_list):
     assertContains(book_list, "Book List")
@@ -25,3 +28,8 @@ def test_get_page_from_query_string(populate_book_list, client):
     resp = client.get(f"{resolve_url('book_list')}?page=2")
     page = resp.context["page_obj"]
     assert page.number == 2
+
+
+def test_book_manager():
+    assert isinstance(Book.objects, PageManager)
+
